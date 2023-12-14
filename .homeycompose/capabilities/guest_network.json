@@ -1,0 +1,9 @@
+{
+  "type": "boolean",
+  "title": { "en": "Guest Network" },
+  "getable": true,
+  "setable": true,
+  "uiComponent": "toggle",
+  "uiQuickAction": true,
+  "icon": "/assets/icon.svg"
+}

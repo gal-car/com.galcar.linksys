@@ -1,0 +1,9 @@
+{
+  "type": "string",
+  "title": { "en": "External IP" },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "uiQuickAction": true,
+  "icon": "/assets/icon.svg"
+}

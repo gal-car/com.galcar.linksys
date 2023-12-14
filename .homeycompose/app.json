@@ -1,0 +1,29 @@
+{
+  "id": "com.galcar.linksys",
+  "version": "1.0.0",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "platforms": [
+    "local",
+    "cloud"
+  ],
+  "name": {
+    "en": "Linksys Routers"
+  },
+  "description": {
+    "en": "Support for Smart WiFi Linksys Routers"
+  },
+  "category": [
+    "appliances"
+  ],
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Gal Carmeli",
+    "email": "carmeli128@gmail.com"
+  }
+}

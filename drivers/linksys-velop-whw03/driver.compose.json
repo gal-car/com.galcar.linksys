@@ -1,0 +1,29 @@
+{
+  "name": {
+    "en": "Linksys Velop WHW03"
+  },
+  "class": "other",
+  "capabilities": ["external_ip","wan_status","nof_24ghz_devices","nof_5ghz_devices","nof_lan_devices","nof_unknown_devices","nof_connected_devices","nof_nodes","firmware_check_date","firmware_version","guest_network","reboot"],
+  "platforms": [
+    "local",
+    "cloud"
+  ],
+  "connectivity": [
+  ],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+  },
+  "pair" : [{
+    "id" : "list_device",
+    "template" : "list_devices",
+    "navigation" : {
+        "next" : "add_devices"
+    }
+  },
+  {
+    "id" : "add_devices",
+    "template" : "add_devices"
+   }]
+}

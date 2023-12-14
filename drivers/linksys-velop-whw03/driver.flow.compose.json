@@ -1,0 +1,691 @@
+{
+  "triggers": [
+    {
+      "id": "a-new-device-connected",
+      "title": {
+        "en": "A New Device Connected"
+      },
+      "titleFormatted": {
+        "en": "A New Device Connected to [[Network]] Network"
+      },
+      "hint": {
+        "en": "A new device connected to network by using LAN, Wifi-2.4GHz, Wifi-5GHz or any of them"
+      },
+      "args": [
+        {
+          "type": "dropdown",
+          "name": "Network",
+          "values": [
+            {
+              "id": "2.4GHz",
+              "label": {
+                "en": "2.4GHz"
+              }
+            },
+            {
+              "id": "5GHz",
+              "label": {
+                "en": "5GHz"
+              }
+            },
+            {
+              "id": "LAN",
+              "label": {
+                "en": "LAN"
+              }
+            },
+            {
+              "id": "ANY",
+              "label": {
+                "en": "Any"
+              }
+            }
+          ]
+        }
+      ],
+      "tokens": [
+        {
+          "type": "string",
+          "name": "device-name",
+          "title": {
+            "en": "Device Name"
+          },
+          "example": {
+            "en": "John's Cellphone"
+          }
+        },
+        {
+          "type": "string",
+          "name": "device-mac-address",
+          "title": {
+            "en": "Device MAC Address"
+          },
+          "example": {
+            "en": "30:40:50:60:4A:BD"
+          }
+        },
+        {
+          "type": "string",
+          "name": "device-ip",
+          "title": {
+            "en": "Device IP"
+          },
+          "example": {
+            "en": "192.168.5.8"
+          }
+        },
+        {
+          "type": "string",
+          "name": "connect_network",
+          "title": {
+            "en": "Network"
+          },
+          "example": {
+            "en": "2.4GHz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "a-device-disconnected",
+      "title": {
+        "en": "A Device was Disconnected"
+      },
+      "titleFormatted": {
+        "en": "A Device was Disconnected from [[Network]] Network"
+      },
+      "hint": {
+        "en": "A device was disconnected from network by using LAN, Wifi-2.4GHz, Wifi-5GHz or any of them"
+      },
+      "args": [
+        {
+          "type": "dropdown",
+          "name": "Network",
+          "values": [
+            {
+              "id": "2.4GHz",
+              "label": {
+                "en": "2.4GHz"
+              }
+            },
+            {
+              "id": "5GHz",
+              "label": {
+                "en": "5GHz"
+              }
+            },
+            {
+              "id": "LAN",
+              "label": {
+                "en": "LAN"
+              }
+            },
+            {
+              "id": "ANY",
+              "label": {
+                "en": "Any"
+              }
+            }
+          ]
+        }
+      ],
+      "tokens": [
+        {
+          "type": "string",
+          "name": "device-name",
+          "title": {
+            "en": "Device Name"
+          },
+          "example": {
+            "en": "John's Cellphone"
+          }
+        },
+        {
+          "type": "string",
+          "name": "device-mac-address",
+          "title": {
+            "en": "Device MAC Address"
+          },
+          "example": {
+            "en": "30:40:50:60:4A:BD"
+          }
+        },
+        {
+          "type": "string",
+          "name": "device-ip",
+          "title": {
+            "en": "Device IP"
+          },
+          "example": {
+            "en": "192.168.5.8"
+          }
+        },
+        {
+          "type": "string",
+          "name": "disconnect_network",
+          "title": {
+            "en": "Network"
+          },
+          "example": {
+            "en": "2.4GHz"
+          }
+        }
+      ]
+    },
+    {
+      "id": "network-changed",
+      "title": {
+        "en": "A Device has changed his network"
+      },
+      "titleFormatted": {
+        "en": "A Device has changed his network from [[Source_Network]] to [[Destination_Network]]"
+      },
+      "hint": {
+        "en": "A connected device changed from one type of network to another"
+      },
+      "args": [
+        {
+          "type": "dropdown",
+          "name": "Source_Network",
+          "values": [
+            {
+              "id": "2.4GHz",
+              "label": {
+                "en": "2.4GHz"
+              }
+            },
+            {
+              "id": "5GHz",
+              "label": {
+                "en": "5GHz"
+              }
+            },
+            {
+              "id": "LAN",
+              "label": {
+                "en": "LAN"
+              }
+            },
+            {
+              "id": "ANY",
+              "label": {
+                "en": "Any"
+              }
+            }
+          ]
+        },
+        {
+          "type": "dropdown",
+          "name": "Destination_Network",
+          "values": [
+            {
+              "id": "2.4GHz",
+              "label": {
+                "en": "2.4GHz"
+              }
+            },
+            {
+              "id": "5GHz",
+              "label": {
+                "en": "5GHz"
+              }
+            },
+            {
+              "id": "LAN",
+              "label": {
+                "en": "LAN"
+              }
+            },
+            {
+              "id": "ANY",
+              "label": {
+                "en": "Any"
+              }
+            }
+          ]
+        }
+      ],
+      "tokens": [
+        {
+          "type": "string",
+          "name": "device-name",
+          "title": {
+            "en": "Device Name"
+          },
+          "example": {
+            "en": "John's Cellphone"
+          }
+        },
+        {
+          "type": "string",
+          "name": "device-mac-address",
+          "title": {
+            "en": "Device MAC Address"
+          },
+          "example": {
+            "en": "30:40:50:60:4A:BD"
+          }
+        },
+        {
+          "type": "string",
+          "name": "device-ip",
+          "title": {
+            "en": "Device IP"
+          },
+          "example": {
+            "en": "192.168.5.8"
+          }
+        },
+        {
+          "type": "string",
+          "name": "source-network",
+          "title": {
+            "en": "Source Network"
+          },
+          "example": {
+            "en": "24.GHz"
+          }
+        },
+        {
+          "type": "string",
+          "name": "destination-network",
+          "title": {
+            "en": "Destination Network"
+          },
+          "example": {
+            "en": "LAN"
+          }
+        }
+      ]
+    },
+    {
+      "id": "node-changed",
+      "title": {
+        "en": "A Device switched from one node to another"
+      },
+      "titleFormatted": {
+        "en": "A Device switched from node [[Source_Node]] to node [[Destination_Node]]"
+      },
+      "hint": {
+        "en": "Device switched from one node to another. This usually happen when the device changes its location"
+      },
+      "args": [
+        {
+          "type": "autocomplete",
+          "name": "Source_Node"
+        },
+        {
+          "type": "autocomplete",
+          "name": "Destination_Node"
+        }
+      ],
+      "tokens": [
+        {
+          "type": "string",
+          "name": "device-name",
+          "title": {
+            "en": "Device Name"
+          },
+          "example": {
+            "en": "John's Cellphone"
+          }
+        },
+        {
+          "type": "string",
+          "name": "device-mac-address",
+          "title": {
+            "en": "Device MAC Address"
+          },
+          "example": {
+            "en": "30:40:50:60:4A:BD"
+          }
+        },
+        {
+          "type": "string",
+          "name": "device-ip",
+          "title": {
+            "en": "Device IP"
+          },
+          "example": {
+            "en": "192.168.5.8"
+          }
+        },
+        {
+          "type": "string",
+          "name": "source-network",
+          "title": {
+            "en": "Source Network"
+          },
+          "example": {
+            "en": "24.GHz"
+          }
+        },
+        {
+          "type": "string",
+          "name": "destination-network",
+          "title": {
+            "en": "Destination Network"
+          },
+          "example": {
+            "en": "LAN"
+          }
+        },
+        {
+          "type": "string",
+          "name": "source-node",
+          "title": {
+            "en": "Source Node"
+          },
+          "example": {
+            "en": "Living Room Node"
+          }
+        },
+        {
+          "type": "string",
+          "name": "destination-node",
+          "title": {
+            "en": "Destination Node"
+          },
+          "example": {
+            "en": "Living Room Node"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wan-status-changed",
+      "title": {
+        "en": "The WAN connection status was changed"
+      },
+      "titleFormatted": {
+        "en": "The WAN connection status was changed to [[Connection_Status]]"
+      },
+      "args": [
+        {
+          "type": "dropdown",
+          "name": "Connection_Status",
+          "values": [
+            {
+              "id": "Connected",
+              "label": {
+                "en": "Connected"
+              }
+            },
+            {
+              "id": "Disconnected",
+              "label": {
+                "en": "Disconnected"
+              }
+            },
+            {
+              "id": "Changed",
+              "label": {
+                "en": "Either connected or diconnected"
+              }
+            }
+          ]
+        }
+      ],
+      "tokens": [
+        {
+          "type": "string",
+          "name": "external-ip",
+          "title": {
+            "en": "External IP"
+          },
+          "example": {
+            "en": "110.110.110.110"
+          }
+        },
+        {
+          "type": "string",
+          "name": "wan-connection-status",
+          "title": {
+            "en": "WAN Connection Status"
+          },
+          "example": {
+            "en": "Connected / Disconnected"
+          }
+        }
+      ]
+    },
+    {
+      "id": "external-ip-changed",
+      "title": {
+        "en": "The router's external IP has changed"
+      },
+      "tokens": [
+        {
+          "type": "string",
+          "name": "external-ip",
+          "title": {
+            "en": "External IP"
+          },
+          "example": {
+            "en": "110.110.110.110"
+          }
+        }
+      ]
+    }
+  ],
+  "conditions": [
+    {
+      "id": "wan-connected-condition",
+      "title": {
+        "en": "The WAN is Connected"
+      },
+      "titleFormatted": {
+        "en": "The WAN is Connected"
+      }
+    },
+    {
+      "id": "device-is-connected-condition",
+      "title": {
+        "en": "A specific device is connected"
+      },
+      "titleFormatted": {
+        "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is Connected"
+      },
+      "hint": {
+        "en": "Checks whether a specific device is connected. You can use device name or device MAC address to identify your device"
+      },
+      "args": [
+        {
+          "type": "autocomplete",
+          "name": "specific_device_cond"
+        },
+        {
+          "type": "dropdown",
+          "name": "by_mac_or_name",
+          "values": [
+            {
+              "id": "by_mac",
+              "label": {
+                "en": "MAC Address"
+              }
+            },
+            {
+              "id": "by_name",
+              "label": {
+                "en": "Device Name"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "device-is-connected-to-node-condition",
+      "title": {
+        "en": "A specific device is connected to a specific node"
+      },
+      "titleFormatted": {
+        "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is Connected to node [[specific_node_id_cond]]"
+      },
+      "hint": {
+        "en": "Checks whether a specific device is connected to a specific node. You can use device name or device MAC address to identify your device"
+      },
+      "args": [
+        {
+          "type": "autocomplete",
+          "name": "specific_device_cond"
+        },
+        {
+          "type": "dropdown",
+          "name": "by_mac_or_name",
+          "values": [
+            {
+              "id": "by_mac",
+              "label": {
+                "en": "MAC Address"
+              }
+            },
+            {
+              "id": "by_name",
+              "label": {
+                "en": "Device Name"
+              }
+            }
+          ]
+        },
+        {
+          "type": "autocomplete",
+          "name": "specific_node_id_cond"
+        }
+      ]
+    },
+    {
+      "id": "device-is-connected-to-network-condition",
+      "title": {
+        "en": "A specific device is connected to a specific network"
+      },
+      "titleFormatted": {
+        "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is Connected to network [[specific_network_cond]]"
+      },
+      "hint": {
+        "en": "Checks whether a specific device is connected to a specific network. You can use device name or device MAC address to identify your device"
+      },
+      "args": [
+        {
+          "type": "autocomplete",
+          "name": "specific_device_cond"
+        },
+        {
+          "type": "dropdown",
+          "name": "by_mac_or_name",
+          "values": [
+            {
+              "id": "by_mac",
+              "label": {
+                "en": "MAC Address"
+              }
+            },
+            {
+              "id": "by_name",
+              "label": {
+                "en": "Device Name"
+              }
+            }
+          ]
+        },
+        {
+          "type": "dropdown",
+          "name": "specific_network_cond",
+          "values": [
+            {
+              "id": "2.4GHz",
+              "label": {
+                "en": "2.4GHz"
+              }
+            },
+            {
+              "id": "5GHz",
+              "label": {
+                "en": "5GHz"
+              }
+            },
+            {
+              "id": "LAN",
+              "label": {
+                "en": "LAN"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "device-is-connected-to-guest-condition",
+      "title": {
+        "en": "A specific device is connected to the Guest network"
+      },
+      "titleFormatted": {
+        "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is Connected to the Guest network"
+      },
+      "hint": {
+        "en": "Checks whether a specific device is connected to the Gues network. You can use device name or device MAC address to identify your device"
+      },
+      "args": [
+        {
+          "type": "autocomplete",
+          "name": "specific_device_cond"
+        },
+        {
+          "type": "dropdown",
+          "name": "by_mac_or_name",
+          "values": [
+            {
+              "id": "by_mac",
+              "label": {
+                "en": "MAC Address"
+              }
+            },
+            {
+              "id": "by_name",
+              "label": {
+                "en": "Device Name"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "reboot-router",
+      "title": {
+        "en": "Reboot Router"
+      }
+    },
+    {
+      "id": "guest-network",
+      "title": {
+        "en": "Turn Guest Network On/Off"
+      },
+      "titleFormatted": {
+        "en": "Turn Guest Network [[on_off]]"
+      },
+      "args": [
+        {
+          "type": "dropdown",
+          "name": "on_off",
+          "values": [
+            {
+              "id": "on",
+              "label": {
+                "en": "On"
+              }
+            },
+            {
+              "id": "Off",
+              "label": {
+                "en": "Off"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

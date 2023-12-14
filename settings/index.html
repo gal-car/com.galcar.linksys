@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- The '/homey.js' script must be included in your settings view to work -->
+    <script
+      type="text/javascript"
+      src="/homey.js"
+      data-origin="settings"
+    ></script>
+  </head>
+  <body>
+    <header class="homey-header">
+      <h1 class="homey-title" data-i18n="settings.title">
+        <!-- This will be filled with the translated string with key 'settings.title'. -->
+      </h1>
+      <p class="homey-subtitle" data-i18n="settings.subtitle">
+        <!-- This field will also be translated -->
+      </p>
+    </header>
+
+    <fieldset class="homey-form-fieldset">
+      <legend class="homey-form-legend">Linksys Router Settings</legend>
+
+      <div class="homey-form-group">
+        <label class="homey-form-label" for="ip">Router IP</label>
+        <input class="homey-form-input" id="ip" type="text" value="" />
+      </div>
+      <div class="homey-form-group">
+        <label class="homey-form-label" for="username">Username</label>
+        <input class="homey-form-input" id="username" type="text" value="" />
+      </div>
+      <div class="homey-form-group">
+        <label class="homey-form-label" for="password">Password</label>
+        <input class="homey-form-input" id="password" type="password" value="" />
+        <input type="checkbox" onclick="showPassword()"> Show Password
+      </div>
+      <div style="text-align: center;" id="connected_div" hidden>
+        <img height="60" src="./green_v.png"><BR>
+        Connected Sucsefully
+     </div>
+     <div style="text-align: center;" id="disconnected_div" hidden>
+      <img height="60" src="./red_x.png"><BR>
+        Failed to Connect
+     </div>
+     <div style="text-align: center;" id="pending_div" hidden>
+        <img height="60" src="./pending.png"><BR>
+        Trying to connect, please wait...
+     </div>
+    </fieldset>
+
+    <button id="save" class="homey-button-primary-full">Save changes</button>
+
+    <script type="text/javascript">
+      // a method named 'onHomeyReady' must be present in your code
+      function onHomeyReady(Homey) {
+        // Tell Homey we're ready to be displayed
+        Homey.ready();
+
+        var ipElement = document.getElementById("ip");
+        var usernameElement = document.getElementById("username");
+        var passwordElement = document.getElementById("password");
+        var saveElement = document.getElementById("save");
+
+        Homey.get("ip", function (err, ip) {
+          if (err) return Homey.alert(err);
+          ipElement.value = ip;
+        });
+
+        Homey.get("username", function (err, username) {
+          if (err) return Homey.alert(err);
+          usernameElement.value = username;
+        });
+
+        Homey.get("password", function (err, password) {
+          if (err) return Homey.alert(err);
+          passwordElement.value = password;
+        });
+
+        saveElement.addEventListener("click", function (e) {
+          document.getElementById("connected_div").style.display = 'none';
+          document.getElementById("disconnected_div").style.display = 'none';
+          document.getElementById("pending_div").style.display = 'block';
+
+          Homey.set("ip", ipElement.value, function (err) {
+            if (err) return Homey.alert(err);
+          });
+          Homey.set("username", usernameElement.value, function (err) {
+            if (err) return Homey.alert(err);
+          });
+          Homey.set("password", passwordElement.value, function (err) {
+            if (err) return Homey.alert(err);
+          });
+        });
+
+        //TODO: Show/Hide Passowrd Capability - https://www.w3schools.com/howto/howto_js_toggle_password.asp
+        Homey.on( "settings.set", function(element) {
+          if (element === "pwd_check") {
+            Homey.get("pwd_check", function (err, check) {
+              if (err) return Homey.alert(err);
+              if (check == "OK") {
+                //TODO: Nicer indication
+                document.getElementById("connected_div").style.display = 'block';
+                document.getElementById("disconnected_div").style.display = 'none';
+                document.getElementById("pending_div").style.display = 'none';
+              } else if (check == "NOT_OK") {
+                document.getElementById("connected_div").style.display = "none";
+                document.getElementById("disconnected_div").style.display = "block";
+                document.getElementById("pending_div").style.display = 'none';
+              }
+            });  
+          }
+        })
+      }
+
+      function showPassword() {
+        var pwdElement = document.getElementById("password");
+        if (pwdElement.type === "password") {
+          pwdElement.type = "text";
+        } else {
+          pwdElement.type = "password";
+        }
+      }
+    </script>
+  </body>
+</html>

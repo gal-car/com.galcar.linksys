@@ -1,0 +1,9 @@
+{
+  "type": "number",
+  "title": { "en": "2.4 GHz Devices" },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "uiQuickAction": true,
+  "icon": "/assets/icon.svg"
+}

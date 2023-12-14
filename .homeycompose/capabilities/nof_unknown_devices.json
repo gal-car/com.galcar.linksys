@@ -1,0 +1,9 @@
+{
+  "type": "number",
+  "title": { "en": "Number of Unknown Connection-Type Devices" },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "uiQuickAction": true,
+  "icon": "/assets/icon.svg"
+}
