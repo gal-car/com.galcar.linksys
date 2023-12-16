@@ -8,15 +8,32 @@
     "local",
     "cloud"
   ],
+  "brandColor": "#000000",
   "name": {
     "en": "Linksys Routers"
   },
   "description": {
-    "en": "Support for Smart WiFi Linksys Routers"
+    "en": "Connect Smart WiFi-enabled Linksys Routers to Homey to add router events to your Homey flows"
   },
   "category": [
     "appliances"
   ],
+  "tags": {
+    "en": [
+      "Linksys",
+      "Velop",
+      "WHW03",
+      "Router",
+      "Mesh",
+      "Node",
+      "WiFi"
+    ]
+  },
+  "source": "https://https://github.com/gal-car/com.galcar.tami4edge",
+  "support": "mailto:carmeli128@gmail.com",
+  "bugs": {
+    "url": "https://github.com/gal-car/com.galcar.tami4edge/issues"
+  },
   "permissions": [],
   "images": {
     "small": "/assets/images/small.png",
@@ -26,6 +43,13 @@
   "author": {
     "name": "Gal Carmeli",
     "email": "carmeli128@gmail.com"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "GalCarmeli"
+      }
+    }
   },
   "flow": {
     "triggers": [
@@ -49,6 +73,9 @@
           {
             "type": "dropdown",
             "name": "Network",
+            "title": {
+              "en": "Network Type"
+            },
             "values": [
               {
                 "id": "2.4GHz",
@@ -140,6 +167,9 @@
           {
             "type": "dropdown",
             "name": "Network",
+            "title": {
+              "en": "Network Type"
+            },
             "values": [
               {
                 "id": "2.4GHz",
@@ -231,6 +261,9 @@
           {
             "type": "dropdown",
             "name": "Source_Network",
+            "title": {
+              "en": "Network Type"
+            },
             "values": [
               {
                 "id": "2.4GHz",
@@ -261,6 +294,9 @@
           {
             "type": "dropdown",
             "name": "Destination_Network",
+            "title": {
+              "en": "Network Type"
+            },
             "values": [
               {
                 "id": "2.4GHz",
@@ -361,11 +397,17 @@
           },
           {
             "type": "autocomplete",
-            "name": "Source_Node"
+            "name": "Source_Node",
+            "title": {
+              "en": "Node Name"
+            }
           },
           {
             "type": "autocomplete",
-            "name": "Destination_Node"
+            "name": "Destination_Node",
+            "title": {
+              "en": "Node Name"
+            }
           }
         ],
         "tokens": [
@@ -458,6 +500,9 @@
           {
             "type": "dropdown",
             "name": "Connection_Status",
+            "title": {
+              "en": "Conection Status"
+            },
             "values": [
               {
                 "id": "Connected",
@@ -565,11 +610,17 @@
           },
           {
             "type": "autocomplete",
-            "name": "specific_device_cond"
+            "name": "specific_device_cond",
+            "title": {
+              "en": "MAC or Name"
+            }
           },
           {
             "type": "dropdown",
             "name": "by_mac_or_name",
+            "title": {
+              "en": "MAC Address/Device Name"
+            },
             "values": [
               {
                 "id": "by_mac",
@@ -606,11 +657,17 @@
           },
           {
             "type": "autocomplete",
-            "name": "specific_device_cond"
+            "name": "specific_device_cond",
+            "title": {
+              "en": "MAC or Name"
+            }
           },
           {
             "type": "dropdown",
             "name": "by_mac_or_name",
+            "title": {
+              "en": "MAC Address/Device Name"
+            },
             "values": [
               {
                 "id": "by_mac",
@@ -628,7 +685,10 @@
           },
           {
             "type": "autocomplete",
-            "name": "specific_node_id_cond"
+            "name": "specific_node_id_cond",
+            "title": {
+              "en": "Node Name"
+            }
           }
         ]
       },
@@ -651,11 +711,17 @@
           },
           {
             "type": "autocomplete",
-            "name": "specific_device_cond"
+            "name": "specific_device_cond",
+            "title": {
+              "en": "MAC or Name"
+            }
           },
           {
             "type": "dropdown",
             "name": "by_mac_or_name",
+            "title": {
+              "en": "MAC Address/Device Name"
+            },
             "values": [
               {
                 "id": "by_mac",
@@ -674,6 +740,9 @@
           {
             "type": "dropdown",
             "name": "specific_network_cond",
+            "title": {
+              "en": "Network Type"
+            },
             "values": [
               {
                 "id": "2.4GHz",
@@ -716,11 +785,17 @@
           },
           {
             "type": "autocomplete",
-            "name": "specific_device_cond"
+            "name": "specific_device_cond",
+            "title": {
+              "en": "MAC or Name"
+            }
           },
           {
             "type": "dropdown",
             "name": "by_mac_or_name",
+            "title": {
+              "en": "MAC Address/Device Name"
+            },
             "values": [
               {
                 "id": "by_mac",
@@ -770,6 +845,9 @@
           {
             "type": "dropdown",
             "name": "on_off",
+            "title": {
+              "en": "On/Off"
+            },
             "values": [
               {
                 "id": "on",

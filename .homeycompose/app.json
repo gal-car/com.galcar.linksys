@@ -7,15 +7,32 @@
     "local",
     "cloud"
   ],
+  "brandColor": "#000000",
   "name": {
     "en": "Linksys Routers"
   },
   "description": {
-    "en": "Support for Smart WiFi Linksys Routers"
+    "en": "Connect Smart WiFi-enabled Linksys Routers to Homey to add router events to your Homey flows"
   },
   "category": [
     "appliances"
   ],
+ "tags": {
+    "en": [
+      "Linksys",
+      "Velop",
+      "WHW03",
+      "Router",
+      "Mesh",
+      "Node",
+      "WiFi"
+    ]
+  },
+  "source": "https://github.com/gal-car/com.galcar.linksys",
+  "support": "mailto:carmeli128@gmail.com",
+  "bugs": {
+    "url": "https://github.com/gal-car/com.galcar.linksys/issues"
+  },
   "permissions": [],
   "images": {
     "small": "/assets/images/small.png",
@@ -25,5 +42,12 @@
   "author": {
     "name": "Gal Carmeli",
     "email": "carmeli128@gmail.com"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "GalCarmeli"
+      }
+    }
   }
 }

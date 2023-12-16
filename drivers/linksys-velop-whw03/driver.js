@@ -186,7 +186,7 @@ class Velop_WHW03 extends Driver {
     if ((deviceInfo.output.modelNumber != "WHW03") || (deviceInfo.output.description != "Velop")) {return []};
     return [
       {
-        name: deviceInfo.output.manufacturer + "-" + deviceInfo.output.description + deviceInfo.output.modelNumber,
+        name: deviceInfo.output.manufacturer + "-" + deviceInfo.output.description + "-" + deviceInfo.output.modelNumber,
         data: deviceData
       }
     ];

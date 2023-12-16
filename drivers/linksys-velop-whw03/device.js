@@ -7,9 +7,9 @@ const { Device } = require('homey');
 //const UPDATE_GUEST_NETWORK_INTERVAL = 60*1000 //1 minute
 
 //DEBUG
-const UPDATE_DEVICES_INTERVAL  = 10*1000 //10 sec
-const UPDATE_WAN_INTERVAL      = 10*1000 //10 sec
-const UPDATE_GUEST_NETWORK_INTERVAL = 10*1000 //10 sec
+const UPDATE_DEVICES_INTERVAL  = 60*1000 //60 sec
+const UPDATE_WAN_INTERVAL      = 60*1000 //60 sec
+const UPDATE_GUEST_NETWORK_INTERVAL = 60*1000 //60 sec
 /////////////////
 
 const UPDATE_FIRNWARE_INTERVAL = 60*60*1000 //1 hour
@@ -44,8 +44,7 @@ class Velop_Device extends Device {
     this.#updateDeviceListInterval      = setInterval(async() => {await this.#updateDeviceList()},UPDATE_DEVICES_INTERVAL);
     this.#updateWanStatuInterval        = setInterval(async() => {await this.#updateWanStatus()},UPDATE_WAN_INTERVAL);
     this.#updateFirmwareDetailsInterval = setInterval(async() => {await this.#updateFirmwareDetails()},UPDATE_FIRNWARE_INTERVAL);
-    //DEBUG
-    //this.#updateGuestNetworkInterval    = setInterval(async() => {await this.#updateGuestNetworkStatus()},UPDATE_GUEST_NETWORK_INTERVAL);
+    this.#updateGuestNetworkInterval    = setInterval(async() => {await this.#updateGuestNetworkStatus()},UPDATE_GUEST_NETWORK_INTERVAL);
 
     this.driver.nodeChangedFlowCard.registerArgumentAutocompleteListener(
       "Source_Node",
