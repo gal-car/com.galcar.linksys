@@ -29,10 +29,10 @@
       "WiFi"
     ]
   },
-  "source": "https://https://github.com/gal-car/com.galcar.tami4edge",
+  "source": "https://github.com/gal-car/com.galcar.linksys",
   "support": "mailto:carmeli128@gmail.com",
   "bugs": {
-    "url": "https://github.com/gal-car/com.galcar.tami4edge/issues"
+    "url": "https://github.com/gal-car/com.galcar.linksys/issues"
   },
   "permissions": [],
   "images": {
@@ -56,13 +56,13 @@
       {
         "id": "a-new-device-connected",
         "title": {
-          "en": "A New Device Connected"
+          "en": "A device was connected"
         },
         "titleFormatted": {
-          "en": "A New Device Connected to [[Network]] Network"
+          "en": "A device was connected to [[Network]] network"
         },
         "hint": {
-          "en": "A new device connected to network by using LAN, Wifi-2.4GHz, Wifi-5GHz or any of them"
+          "en": "A device was connected to network by using LAN, Wifi-2.4GHz, Wifi-5GHz or any of them"
         },
         "args": [
           {
@@ -150,10 +150,10 @@
       {
         "id": "a-device-disconnected",
         "title": {
-          "en": "A Device was Disconnected"
+          "en": "A device was disconnected"
         },
         "titleFormatted": {
-          "en": "A Device was Disconnected from [[Network]] Network"
+          "en": "A device was disconnected from [[Network]] network"
         },
         "hint": {
           "en": "A device was disconnected from network by using LAN, Wifi-2.4GHz, Wifi-5GHz or any of them"
@@ -244,10 +244,10 @@
       {
         "id": "network-changed",
         "title": {
-          "en": "A Device has changed his network"
+          "en": "A device has changed his network"
         },
         "titleFormatted": {
-          "en": "A Device has changed his network from [[Source_Network]] to [[Destination_Network]]"
+          "en": "A device has changed his network from [[Source_Network]] to [[Destination_Network]]"
         },
         "hint": {
           "en": "A connected device changed from one type of network to another"
@@ -381,10 +381,10 @@
       {
         "id": "node-changed",
         "title": {
-          "en": "A Device switched from one node to another"
+          "en": "A device switched from one node to another"
         },
         "titleFormatted": {
-          "en": "A Device switched from node [[Source_Node]] to node [[Destination_Node]]"
+          "en": "A device switched from node [[Source_Node]] to node [[Destination_Node]]"
         },
         "hint": {
           "en": "Device switched from one node to another. This usually happen when the device changes its location"
@@ -578,10 +578,10 @@
       {
         "id": "wan-connected-condition",
         "title": {
-          "en": "The WAN is Connected"
+          "en": "The WAN is connected"
         },
         "titleFormatted": {
-          "en": "The WAN is Connected"
+          "en": "The WAN is connected"
         },
         "args": [
           {
@@ -597,7 +597,7 @@
           "en": "A specific device is connected"
         },
         "titleFormatted": {
-          "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is Connected"
+          "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is connected"
         },
         "hint": {
           "en": "Checks whether a specific device is connected. You can use device name or device MAC address to identify your device"
@@ -644,7 +644,7 @@
           "en": "A specific device is connected to a specific node"
         },
         "titleFormatted": {
-          "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is Connected to node [[specific_node_id_cond]]"
+          "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is connected to node [[specific_node_id_cond]]"
         },
         "hint": {
           "en": "Checks whether a specific device is connected to a specific node. You can use device name or device MAC address to identify your device"
@@ -698,7 +698,7 @@
           "en": "A specific device is connected to a specific network"
         },
         "titleFormatted": {
-          "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is Connected to network [[specific_network_cond]]"
+          "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is connected to network [[specific_network_cond]]"
         },
         "hint": {
           "en": "Checks whether a specific device is connected to a specific network. You can use device name or device MAC address to identify your device"
@@ -769,10 +769,10 @@
       {
         "id": "device-is-connected-to-guest-condition",
         "title": {
-          "en": "A specific device is connected to the Guest network"
+          "en": "A specific device is connected to the guest network"
         },
         "titleFormatted": {
-          "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is Connected to the Guest network"
+          "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is connected to the Guest network"
         },
         "hint": {
           "en": "Checks whether a specific device is connected to the Gues network. You can use device name or device MAC address to identify your device"

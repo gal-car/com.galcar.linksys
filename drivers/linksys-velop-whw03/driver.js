@@ -183,13 +183,42 @@ class Velop_WHW03 extends Driver {
       "model_number" : deviceInfo.output.modelNumber,
       "model_name" : deviceInfo.output.description      
     }
-    if ((deviceInfo.output.modelNumber != "WHW03") || (deviceInfo.output.description != "Velop")) {return []};
+    if ((deviceInfo.output.modelNumber.toLowerCase() != "whw03") || (deviceInfo.output.description.toLowerCase() != "velop")) {
+      await this.#testAllAPIs();
+      throw new Error("It looks like your device is not supported by this app. If you like, please send deiagnostic report through app-settings. Once I get the report I can check if its possible to add support to your device.");
+    };
     return [
       {
         name: deviceInfo.output.manufacturer + "-" + deviceInfo.output.description + "-" + deviceInfo.output.modelNumber,
         data: deviceData
       }
     ];
+  }
+
+  async #testAllAPIs() {
+    this.log("-->getGuestNetworkStatus");
+    this.error("-->getGuestNetworkStatus")
+    await this.homey.app.linksysVelopAPI.getGuestNetworkStatus();
+
+    this.log("-->getWanStatus");
+    this.error("-->getWanStatus")
+    await this.homey.app.linksysVelopAPI.getWanStatus();
+
+    this.log("-->getFirmwareUpdateStatus");
+    this.error("-->getFirmwareUpdateStatus")
+    await this.homey.app.linksysVelopAPI.getFirmwareUpdateStatus();
+
+    this.log("-->checkAdminPassword");
+    this.error("-->checkAdminPassword")
+    await this.homey.app.linksysVelopAPI.checkAdminPassword();
+
+    this.log("-->getDeviceInfo");
+    this.error("-->getDeviceInfo")
+    await this.homey.app.linksysVelopAPI.getDeviceInfo();
+
+    this.log("-->getDevices");
+    this.error("-->getDevices")
+    await this.homey.app.linksysVelopAPI.getDevices();
   }
 
 }
