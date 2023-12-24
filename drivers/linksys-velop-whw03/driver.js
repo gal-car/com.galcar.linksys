@@ -5,6 +5,7 @@ const { Driver } = require('homey');
 class Velop_WHW03 extends Driver {
   deviceConnectedFlowCard    = null;
   deviceDisconnectedFlowCard = null;
+  deviceOfflineFlowCard      = null;
   networkChangedFlowCard     = null;
   nodeChangedFlowCard        = null;
   wanStatusChangedFlowCard   = null;
@@ -13,6 +14,7 @@ class Velop_WHW03 extends Driver {
   deviceConnectedConditionCard = null;
   deviceConnectedToNodeConditionCard = null;
   deviceConnectedToNetworkConditionCard = null;
+  deviceOfflineConditionCard = null;
   deviceCoonectedToGuestConditionCard = null;
   rebootActionFlowCard = null;
   guestNetowrkActionFlowCard = null;
@@ -40,6 +42,13 @@ class Velop_WHW03 extends Driver {
       if (args.Network === "ANY") return true;
       if (args.Network === state.Network) return true;
       return false;
+    });
+
+    this.deviceOfflineFlowCard = this.homey.flow.getDeviceTriggerCard('a-device-went-offline');
+    this.deviceOfflineFlowCard.registerRunListener(async (args, state) => {
+      //args.Network: what the user wrote on the flow card. state.Network: what actually happened
+      console.log("device offline handler");
+      return true;
     });
 
     this.networkChangedFlowCard = this.homey.flow.getDeviceTriggerCard('network-changed');
@@ -126,6 +135,19 @@ class Velop_WHW03 extends Driver {
         network = await args.device.getNetworkByName(args.specific_device_cond.device_name);
       }
       return (isConnected && network === args.specific_network_cond)
+    });
+
+    this.deviceOfflineConditionCard = this.homey.flow.getConditionCard('device-is-offline-condition');
+    this.deviceOfflineConditionCard.registerRunListener(async (args, state) => {
+      console.log("Condition (AND): device-is-offline-condition handler");
+      console.log("By mac or name: " + args.by_mac_or_name);
+      var isOffline = false;
+      if (args.by_mac_or_name === "by_mac") {
+        console.log("Calling by-mac)");
+        return await args.device.getIsOfflineByMac(args.specific_device_cond.mac_address);
+      } else {
+        return await args.device.getIsOfflineByName(args.specific_device_cond.device_name);
+      }
     });
 
     this.deviceCoonectedToGuestConditionCard = this.homey.flow.getConditionCard('device-is-connected-to-guest-condition');

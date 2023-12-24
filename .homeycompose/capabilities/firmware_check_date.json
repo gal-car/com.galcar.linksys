@@ -5,5 +5,5 @@
   "setable": false,
   "uiComponent": "sensor",
   "uiQuickAction": true,
-  "icon": "/assets/icon.svg"
+  "icon": "/assets/fw_check_date.svg"
 }

@@ -5,5 +5,5 @@
   "setable": true,
   "uiComponent": "toggle",
   "uiQuickAction": true,
-  "icon": "/assets/icon.svg"
+  "icon": "/assets/guest_wifi.svg"
 }

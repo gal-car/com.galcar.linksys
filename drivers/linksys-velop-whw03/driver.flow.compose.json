@@ -411,6 +411,60 @@
       ]
     },
     {
+      "id": "a-device-went-offline",
+      "title": {
+        "en": "A device went offline"
+      },
+      "titleFormatted": {
+        "en": "A device went offline"
+      },
+      "hint": {
+        "en": "A device is diconnected for a long time from the router, and therefore is considered offline"
+      },
+      "tokens": [
+        {
+          "type": "string",
+          "name": "device-name",
+          "title": {
+            "en": "Device Name"
+          },
+          "example": {
+            "en": "John's Cellphone"
+          }
+        },
+        {
+          "type": "string",
+          "name": "device-mac-address",
+          "title": {
+            "en": "Device MAC Address"
+          },
+          "example": {
+            "en": "30:40:50:60:4A:BD"
+          }
+        },
+        {
+          "type": "string",
+          "name": "device-ip",
+          "title": {
+            "en": "Device IP"
+          },
+          "example": {
+            "en": "192.168.5.8"
+          }
+        },
+        {
+          "type": "string",
+          "name": "disconnect_network",
+          "title": {
+            "en": "Network"
+          },
+          "example": {
+            "en": "2.4GHz"
+          }
+        }
+      ]
+    },
+    {
       "id": "wan-status-changed",
       "title": {
         "en": "The WAN connection status was changed"
@@ -669,6 +723,48 @@
       },
       "hint": {
         "en": "Checks whether a specific device is connected to the Gues network. You can use device name or device MAC address to identify your device"
+      },
+      "args": [
+        {
+          "type": "autocomplete",
+          "name": "specific_device_cond",
+          "title": {
+            "en": "MAC or Name"
+          }
+        },
+        {
+          "type": "dropdown",
+          "name": "by_mac_or_name",
+          "title": {
+            "en": "MAC Address/Device Name"
+          },
+          "values": [
+            {
+              "id": "by_mac",
+              "label": {
+                "en": "MAC Address"
+              }
+            },
+            {
+              "id": "by_name",
+              "label": {
+                "en": "Device Name"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "device-is-offline-condition",
+      "title": {
+        "en": "A specific device is offline"
+      },
+      "titleFormatted": {
+        "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is offline"
+      },
+      "hint": {
+        "en": "Checks whether a specific device is dosconnected from the network for a long time, and therefore marked as offline. You can use device name or device MAC address to identify your device"
       },
       "args": [
         {

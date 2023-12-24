@@ -34,6 +34,14 @@
         <input class="homey-form-input" id="password" type="password" value="" />
         <input type="checkbox" onclick="showPassword()"> Show Password
       </div>
+      <div class="homey-form-group">
+        <table border="0">
+        <tr><td width="40%" padding: 15px><label class="homey-form-label" for="offline_after">Mark device as Offline after</label></td>
+        <td width="10%" padding: 15px><input class="homey-form-input" id="offline_after" type="text" value="10" /></td>
+        <td width="*" padding: 15px><label class="homey-form-label" for="offline_after">Minutes</label></td></tr>
+        </table>
+      </div>
+
       <div style="text-align: center;" id="connected_div" hidden>
         <img height="60" src="./green_v.png"><BR>
         Connected Sucsefully
@@ -59,6 +67,7 @@
         var ipElement = document.getElementById("ip");
         var usernameElement = document.getElementById("username");
         var passwordElement = document.getElementById("password");
+        var offlineAfterElement = document.getElementById("offline_after")
         var saveElement = document.getElementById("save");
 
         Homey.get("ip", function (err, ip) {
@@ -76,6 +85,15 @@
           passwordElement.value = password;
         });
 
+        Homey.get("offline_after", function (err, offlineAfter) {
+          if (err) return Homey.alert(err);
+          if (offlineAfter)
+            offlineAfterElement.value = offlineAfter;
+          else 
+            offlineAfterElement.value = 10;
+        });
+
+
         saveElement.addEventListener("click", function (e) {
           document.getElementById("connected_div").style.display = 'none';
           document.getElementById("disconnected_div").style.display = 'none';
@@ -90,6 +108,10 @@
           Homey.set("password", passwordElement.value, function (err) {
             if (err) return Homey.alert(err);
           });
+          Homey.set("offline_after", offlineAfterElement.value, function (err) {
+            if (err) return Homey.alert(err);
+          });
+
         });
 
         //TODO: Show/Hide Passowrd Capability - https://www.w3schools.com/howto/howto_js_toggle_password.asp

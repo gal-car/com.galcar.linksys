@@ -13,18 +13,6 @@ class LinksysRouter extends Homey.App {
    */
   async onInit() {
     
-    if (process.env.DEBUG === '1') {
-      //DEBUG
-			//require('inspector').open(9229, '0.0.0.0', false);
-      //require('inspector').waitForDebugger();
-		}
-
-    //DEBUG
-    //Reset all settings
-    //  for (let key of Object.values(this.homey.settings.getKeys())) {
-    //    this.homey.settings.unset(key);
-    // }
-
     var ip = this.homey.settings.get('ip');
     var username = this.homey.settings.get('username');
     var password = this.homey.settings.get('password');
@@ -41,6 +29,7 @@ class LinksysRouter extends Homey.App {
       ip = this.homey.settings.get('ip');
       password = this.homey.settings.get('password');
       username = this.homey.settings.get('username');
+      
       if (!ip || !password || !username) return;
       this.log("Got all credentials details");
       this.linksysVelopAPI = new LinksysVelopAPI(ip,username,password);

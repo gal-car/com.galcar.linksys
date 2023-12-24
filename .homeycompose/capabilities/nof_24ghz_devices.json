@@ -5,5 +5,5 @@
   "setable": false,
   "uiComponent": "sensor",
   "uiQuickAction": true,
-  "icon": "/assets/icon.svg"
+  "icon": "/assets/nof_24_ghz.svg"
 }
