@@ -31,20 +31,16 @@ class LinksysRouter extends Homey.App {
       username = this.homey.settings.get('username');
       
       if (!ip || !password || !username) return;
-      this.log("Got all credentials details");
       this.linksysVelopAPI = new LinksysVelopAPI(ip,username,password);
       try {
         this.homey.settings.set("pwd_check","PENDING");
         var response = await this.linksysVelopAPI.checkAdminPassword();
         if (response.result === "OK") {
-          this.log("PWD OK!");
           this.homey.settings.set("pwd_check","OK");
         } else {
-          this.log("PWD NOT OK!");
           this.homey.settings.set("pwd_check","NOT_OK");
         }
       } catch (err) {
-        this.log("PWD NOT OK!");
         this.homey.settings.set("pwd_check","NOT_OK");
       }
       

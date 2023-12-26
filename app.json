@@ -484,16 +484,44 @@
         ]
       },
       {
-        "id": "a-device-went-offline",
+        "id": "a-device-went-offline-online",
         "title": {
-          "en": "A device went offline"
+          "en": "A device went offline or online"
         },
         "titleFormatted": {
-          "en": "A device went offline"
+          "en": "A device went [[offline_online]]"
         },
         "hint": {
-          "en": "A device is diconnected for a long time from the router, and therefore is considered offline"
+          "en": "A device is diconnected for a long time from the router and therefore is considered offline, or connected for a long time to the router and therefore considered online"
         },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=linksys-velop-whw03"
+          },
+          {
+            "type": "dropdown",
+            "name": "offline_online",
+            "title": {
+              "en": "Offline or Online"
+            },
+            "values": [
+              {
+                "id": "offline",
+                "label": {
+                  "en": "Offline"
+                }
+              },
+              {
+                "id": "online",
+                "label": {
+                  "en": "Online"
+                }
+              }
+            ]
+          }
+        ],
         "tokens": [
           {
             "type": "string",
@@ -534,13 +562,6 @@
             "example": {
               "en": "2.4GHz"
             }
-          }
-        ],
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=linksys-velop-whw03"
           }
         ]
       },
@@ -875,15 +896,15 @@
         ]
       },
       {
-        "id": "device-is-offline-condition",
+        "id": "device-is-offline-online-condition",
         "title": {
-          "en": "A specific device is offline"
+          "en": "A specific device is offline or online"
         },
         "titleFormatted": {
-          "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is offline"
+          "en": "The device with the [[by_mac_or_name]] [[specific_device_cond]] is [[offline_online]]"
         },
         "hint": {
-          "en": "Checks whether a specific device is dosconnected from the network for a long time, and therefore marked as offline. You can use device name or device MAC address to identify your device"
+          "en": "Checks whether a specific device is dosconnected from the router for a long time and therefore marked as offline, or whether a specific device is connected to the router for a ling time and therefore considered online. You can use device name or device MAC address to identify your device"
         },
         "args": [
           {
@@ -915,6 +936,27 @@
                 "id": "by_name",
                 "label": {
                   "en": "Device Name"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "offline_online",
+            "title": {
+              "en": "Offline or Online"
+            },
+            "values": [
+              {
+                "id": "offline",
+                "label": {
+                  "en": "Offline"
+                }
+              },
+              {
+                "id": "online",
+                "label": {
+                  "en": "Online"
                 }
               }
             ]

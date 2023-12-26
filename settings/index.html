@@ -36,9 +36,9 @@
       </div>
       <div class="homey-form-group">
         <table border="0">
-        <tr><td width="40%" padding: 15px><label class="homey-form-label" for="offline_after">Mark device as Offline after</label></td>
-        <td width="10%" padding: 15px><input class="homey-form-input" id="offline_after" type="text" value="10" /></td>
-        <td width="*" padding: 15px><label class="homey-form-label" for="offline_after">Minutes</label></td></tr>
+        <tr><td width="50%" padding: 15px><label class="homey-form-label" for="offline_online_after">Mark device as Offline or Online after</label></td>
+        <td width="10%" padding: 15px><input class="homey-form-input" id="offline_online_after" type="text" value="10" /></td>
+        <td width="*" padding: 15px><label class="homey-form-label" for="offline_online_after">Minutes</label></td></tr>
         </table>
       </div>
 
@@ -59,15 +59,13 @@
     <button id="save" class="homey-button-primary-full">Save changes</button>
 
     <script type="text/javascript">
-      // a method named 'onHomeyReady' must be present in your code
       function onHomeyReady(Homey) {
-        // Tell Homey we're ready to be displayed
         Homey.ready();
 
         var ipElement = document.getElementById("ip");
         var usernameElement = document.getElementById("username");
         var passwordElement = document.getElementById("password");
-        var offlineAfterElement = document.getElementById("offline_after")
+        var offlineOnlineAfterElement = document.getElementById("offline_online_after")
         var saveElement = document.getElementById("save");
 
         Homey.get("ip", function (err, ip) {
@@ -85,12 +83,12 @@
           passwordElement.value = password;
         });
 
-        Homey.get("offline_after", function (err, offlineAfter) {
+        Homey.get("offline_online_after", function (err, offlineOnlineAfter) {
           if (err) return Homey.alert(err);
-          if (offlineAfter)
-            offlineAfterElement.value = offlineAfter;
+          if (offlineOnlineAfter)
+            offlineOnlineAfterElement.value = offlineOnlineAfter;
           else 
-            offlineAfterElement.value = 10;
+            offlineOnlineAfterElement.value = 10;
         });
 
 
@@ -108,19 +106,20 @@
           Homey.set("password", passwordElement.value, function (err) {
             if (err) return Homey.alert(err);
           });
-          Homey.set("offline_after", offlineAfterElement.value, function (err) {
+          Homey.set("offline_online_after", offlineOnlineAfterElement.value, function (err) {
             if (err) return Homey.alert(err);
           });
-
+          //Setting a stub config item for the homey.settings.on() function to be called, even if nothing changed in any configuration item
+          Homey.set("stub", Date.now(), function (err) {
+            if (err) return Homey.alert(err);
+          });
         });
 
-        //TODO: Show/Hide Passowrd Capability - https://www.w3schools.com/howto/howto_js_toggle_password.asp
         Homey.on( "settings.set", function(element) {
           if (element === "pwd_check") {
             Homey.get("pwd_check", function (err, check) {
               if (err) return Homey.alert(err);
               if (check == "OK") {
-                //TODO: Nicer indication
                 document.getElementById("connected_div").style.display = 'block';
                 document.getElementById("disconnected_div").style.display = 'none';
                 document.getElementById("pending_div").style.display = 'none';

@@ -16,11 +16,10 @@ class Velop_Device extends Device {
   #wanStatus  = null;
   #externalIp = null;
   #guestNetworkStatus = false;
-  #offlineAfter = 10; //10 miuntes by default
-
-
+  
   #updateDeviceListInterval = null;
   #updatePendingOfflineInterval = null;
+  #updatePendingOnlineInterval = null;
   #updateFirmwareDetailsInterval = null;
   #updateWanStatuInterval = null;
   #updateGuestNetworkInterval = null;
@@ -37,13 +36,10 @@ class Velop_Device extends Device {
 
     this.#updateDeviceListInterval      = setInterval(async() => {await this.#updateDeviceList()},UPDATE_DEVICES_INTERVAL);
     this.#updatePendingOfflineInterval  = setInterval(async() => {await this.#updatePendingOffline()},UPDATE_DEVICES_INTERVAL);
+    this.#updatePendingOnlineInterval   = setInterval(async() => {await this.#updatePendingOnline()},UPDATE_DEVICES_INTERVAL);
     this.#updateWanStatuInterval        = setInterval(async() => {await this.#updateWanStatus()},UPDATE_WAN_INTERVAL);
     this.#updateFirmwareDetailsInterval = setInterval(async() => {await this.#updateFirmwareDetails()},UPDATE_FIRNWARE_INTERVAL);
     this.#updateGuestNetworkInterval    = setInterval(async() => {await this.#updateGuestNetworkStatus()},UPDATE_GUEST_NETWORK_INTERVAL);
-
-    this.#offlineAfter = this.homey.settings.get('offline_after');
-    this.log("Offline After:");
-    this.log(this.#offlineAfter);
 
     this.driver.nodeChangedFlowCard.registerArgumentAutocompleteListener(
       "Source_Node",
@@ -83,7 +79,7 @@ class Velop_Device extends Device {
       }
     );
 
-    this.driver.deviceOfflineConditionCard.registerArgumentAutocompleteListener(
+    this.driver.deviceOfflineOnlineConditionCard.registerArgumentAutocompleteListener(
       "specific_device_cond",
       async (query, args) => {
         var results = (args.by_mac_or_name === "by_mac" ? await this.#getAllKnownDeviceMacs() : await this.#getAllKnownDeviceNames());
@@ -194,6 +190,7 @@ class Velop_Device extends Device {
   async onDeleted() {
     clearInterval(this.#updateDeviceListInterval);
     clearInterval(this.#updatePendingOffline);
+    clearInterval(this.#updatePendingOnline);
     clearInterval(this.#updateFirmwareDetailsInterval);
     clearInterval(this.#updateWanStatuInterval);
 
@@ -238,6 +235,7 @@ class Velop_Device extends Device {
         name : "Unknown",
         isConnected : false,
         offlineAfter : 0,
+        onlineAfter: 0,
         connectionType: "Unknown",
         ipv4 : "Unknown",
         ipv6 : "Unknown",
@@ -250,6 +248,7 @@ class Velop_Device extends Device {
       };
       newDevice.deviceId = device.deviceID;
       newDevice.revision = device.lastChangeRevision;
+      for (let iface of Object.values(device.knownInterfaces)) { newDevice.pastMacAddresses.push(iface.macAddress); };
       if (device.connections.length == 0) {
         newDevice.isConnected = false;
       } else {
@@ -258,8 +257,6 @@ class Velop_Device extends Device {
         if (iface.interfaceType == "Wired") { newDevice.connectionType = "LAN" } else
         if (iface.interfaceType == "Unknown") {newDevice.connectionType = "Unknown"} else
         newDevice.connectionType = iface.band; 
-
-        for (let iface of Object.values(device.knownInterfaces)) { newDevice.pastMacAddresses.push(iface.macAddress); };
 
         if (device.connections[0].ipAddress     ) {newDevice.ipv4 = device.connections[0].ipAddress        };
         if (device.connections[0].ipv6Address   ) {newDevice.ipv6 = device.connections[0].ipv6Address      };
@@ -295,6 +292,7 @@ class Velop_Device extends Device {
       for (let newDevice of Object.values(newDevices)) {
         var oldDevice = this.#devices.find(({ deviceId }) => deviceId === newDevice.deviceId);
         newDevice.offlineAfter = oldDevice.offlineAfter;
+        newDevice.onlineAfter = oldDevice.onlineAfter;
         if (newDevice.macAddress === "Unknown") { newDevice.macAddress = oldDevice.macAddress; };
         if (newDevice.ipv4 === "Unknown") { newDevice.ipv4 = oldDevice.ipv4; };
         if (newDevice.ipv6 === "Unknown") { newDevice.ipv6 = oldDevice.ipv4; };
@@ -303,12 +301,13 @@ class Velop_Device extends Device {
       
         //If oldDevice has a bigger/equal revision that newDevice nothign to do
         if (oldDevice.revision >= newDevice.revision) { continue; };
-        this.log("Updating device: " + newDevice.deviceId);
 
         if (oldDevice != null && oldDevice.isConnected && !newDevice.isConnected) {
           // We are looking at oldDevice and not at newDevice since newDevice is disconnected, so it doesn't have IP, Network, etc.
           this.log("Triggering Disconnect: " + oldDevice.name + " " + oldDevice.macAddress + " " + oldDevice.ipv4);
-          newDevice.offlineAfter = 1;
+          if (newDevice.onlineAfter != 0) {newDevice.onlineAfter = 0}
+          else {newDevice.offlineAfter = 1};
+          newDevice.onlineAfter = 0;
           await this.driver.deviceDisconnectedFlowCard.trigger(
             this,
             {
@@ -323,6 +322,8 @@ class Velop_Device extends Device {
         }
         if (oldDevice == null || !oldDevice.isConnected && newDevice.isConnected) {
           this.log("Triggering Connect: " + newDevice.name + " " + newDevice.macAddress + " " + newDevice.ipv4);
+          if (newDevice.offlineAfter != 0) { newDevice.offlineAfter = 0}
+          else {newDevice.onlineAfter = 1};
           await this.driver.deviceConnectedFlowCard.trigger(
             this,
             {
@@ -354,12 +355,7 @@ class Velop_Device extends Device {
         }
         if (oldDevice != null && oldDevice.isConnected && newDevice.isConnected && oldDevice.parent != newDevice.parent) {
           // Switch Node
-          this.log("Triggering Node-changed: " + newDevice.name + " " + newDevice.macAddress + " " + newDevice.ipv4 + " " + oldDevice.connectionType + " --> " + newDevice.connectionType);
-          this.log(this.#nodes);
-          this.log("Source node:")
-          this.log(this.#nodes[oldDevice.parent]);
-          this.log("Target Node:");
-          this.log(this.#nodes[newDevice.parent]);
+          this.log("Triggering Node-changed: " + newDevice.name + " " + newDevice.macAddress + " " + newDevice.ipv4 + " " + this.#nodes[oldDevice.parent] + " --> " + this.#nodes[newDevice.parent]);
           await this.driver.nodeChangedFlowCard.trigger(
             this,
             {
@@ -384,18 +380,21 @@ class Velop_Device extends Device {
   }
 
   async #updatePendingOffline() {
-    this.log("Pending Offline!");
-    var pendingOfflineDevice = this.#devices.filter((device) => {
+    var pendingOfflineDevices = this.#devices.filter((device) => {
       return device.offlineAfter != 0;
     });
-    this.log("Pending Devices:");
-    this.log(pendingOfflineDevice);
-    pendingOfflineDevice.forEach((device) => {
+    this.log("pending offline:");
+    this.log(pendingOfflineDevices)
+
+    var offlineAfterConfig = this.homey.settings.get('offline_online_after');
+
+    pendingOfflineDevices.forEach((device) => {
       if (device.isConnected) {
         device.offlineAfter = 0;
-      } else if (device.offlineAfter == this.#offlineAfter) {
+      } else if (device.offlineAfter >= offlineAfterConfig) {
         //trigger device is offline
-        this.driver.deviceOfflineFlowCard.trigger(
+        this.log("Triggering Device-went-offline: " + device.name);
+        this.driver.deviceOfflineOnlineFlowCard.trigger(
           this,
           {
             "device-name" : device.name,
@@ -403,16 +402,51 @@ class Velop_Device extends Device {
             "device-ip" : device.ipv4,
             "disconnect_network" : device.connectionType
           },
-          {}
+          {
+            "offline_online" : "offline"
+          }
         );
-        this.log("Device is moving to offline!!!!")
-        this.log(device);
         device.offlineAfter = 0;
       } else {
         device.offlineAfter++;
       }
     })
   }
+
+  async #updatePendingOnline() {
+    var pendingOnlineDevices = this.#devices.filter((device) => {
+      return device.onlineAfter != 0;
+    });
+    this.log("pending online:");
+    this.log(pendingOnlineDevices)
+
+    var onlineAfterConfig = this.homey.settings.get('offline_online_after');
+
+    pendingOnlineDevices.forEach((device) => {
+      if (!device.isConnected) {
+        device.onlineAfter = 0;
+      } else if (device.onlineAfter >= onlineAfterConfig) {
+        //trigger device is offline
+        this.log("Triggering Device-went-online: " + device.name);
+        this.driver.deviceOfflineOnlineFlowCard.trigger(
+          this,
+          {
+            "device-name" : device.name,
+            "device-mac-address" : device.macAddress,
+            "device-ip" : device.ipv4,
+            "disconnect_network" : device.connectionType
+          },
+          {
+            "offline_online" : "online"
+          }
+        );
+        device.onlineAfter = 0;
+      } else {
+        device.onlineAfter++;
+      }
+    })
+  }
+
   async getWanStatus() {
     return this.#wanStatus;
   }
@@ -420,8 +454,6 @@ class Velop_Device extends Device {
   async getIsConnectedByMac(mac) {
     var devices = this.#devices.filter((result) => 
     { return (result.macAddress === mac)})
-    this.log("getIsConnectedByMac:");
-    this.log(devices);
     if (devices.find(function(device) {return device.isConnected == true})) return true;
     return false;
   }
@@ -429,10 +461,6 @@ class Velop_Device extends Device {
   async getIsConnectedByName(name) {
     var devices = this.#devices.filter((result) => 
     { return (result.name === name)})
-    this.log("getisConnectedByName:");
-    this.log(devices);
-    this.log("Find results:");
-    this.log(devices.find(function(device) {return device.isConnected == true}));
     if (devices.find(function(device) {return device.isConnected == true})) return true;
     return false;
   }
@@ -440,8 +468,6 @@ class Velop_Device extends Device {
   async getIsOfflineByMac(mac) {
     var devices = this.#devices.filter((result) => 
     { return (result.macAddress === mac)})
-    this.log("getIsOfflineByMac:");
-    this.log(devices);
     if (devices.find(function(device) {return !device.isConnected && device.offlineAfter == 0})) return true;
     return false;
   }
@@ -449,33 +475,39 @@ class Velop_Device extends Device {
   async getIsOfflineByName(name) {
     var devices = this.#devices.filter((result) => 
     { return (result.name === name)})
-    this.log("getIsOfflineByName:");
-    this.log(devices);
     if (devices.find(function(device) {return !device.isConnected && device.offlineAfter == 0})) return true;
+    return false;
+  }
+
+  async getIsOnlineByMac(mac) {
+    var devices = this.#devices.filter((result) => 
+    { return (result.macAddress === mac)})
+    if (devices.find(function(device) {return device.isConnected && device.onlineAfter == 0})) return true;
+    return false;
+  }
+
+  async getIsOnlineByName(name) {
+    var devices = this.#devices.filter((result) => 
+    { return (result.name === name)})
+    if (devices.find(function(device) {return device.isConnected && device.onlineAfter == 0})) return true;
     return false;
   }
 
   async getNetworkByMac(mac) {
     var devices = this.#devices.filter((result) => 
     { return (result.macAddress === mac)})
-    this.log("getNetworkByMac:");
-    this.log(devices);
     return (devices.find(function(device) {return device.isConnected == true})).connectionType;
   }
 
   async getNetworkByName(name) {
     var devices = this.#devices.filter((result) => 
     { return (result.name === name)})
-    this.log("getNetworkByName:");
-    this.log(devices);
     return (devices.find(function(device) {return device.isConnected == true})).connectionType;
   }
 
   async isConnectedToGuestByMac(mac) {
     var devices = this.#devices.filter((result) => 
     { return (result.macAddress === mac)})
-    this.log("isConnectedToGuestByMac:");
-    this.log(devices);
     var connectedDevice = devices.find(function(device) {return device.isConnected == true});
     if (connectedDevice) { return connectedDevice.isGuest ; }
     else return false;
@@ -484,8 +516,6 @@ class Velop_Device extends Device {
   async isConnectedToGuestByName(name) {
     var devices = this.#devices.filter((result) => 
     { return (result.name === name)})
-    this.log("isConnectedToGuestByName:");
-    this.log(devices);
     var connectedDevice = devices.find(function(device) {return device.isConnected == true});
     if (connectedDevice) { return connectedDevice.isGuest ; }
     else return false;  

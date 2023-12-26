@@ -5,7 +5,7 @@ const { Driver } = require('homey');
 class Velop_WHW03 extends Driver {
   deviceConnectedFlowCard    = null;
   deviceDisconnectedFlowCard = null;
-  deviceOfflineFlowCard      = null;
+  deviceOfflineOnlineFlowCard = null;
   networkChangedFlowCard     = null;
   nodeChangedFlowCard        = null;
   wanStatusChangedFlowCard   = null;
@@ -14,7 +14,7 @@ class Velop_WHW03 extends Driver {
   deviceConnectedConditionCard = null;
   deviceConnectedToNodeConditionCard = null;
   deviceConnectedToNetworkConditionCard = null;
-  deviceOfflineConditionCard = null;
+  deviceOfflineOnlineConditionCard = null;
   deviceCoonectedToGuestConditionCard = null;
   rebootActionFlowCard = null;
   guestNetowrkActionFlowCard = null;
@@ -44,11 +44,11 @@ class Velop_WHW03 extends Driver {
       return false;
     });
 
-    this.deviceOfflineFlowCard = this.homey.flow.getDeviceTriggerCard('a-device-went-offline');
-    this.deviceOfflineFlowCard.registerRunListener(async (args, state) => {
+    this.deviceOfflineOnlineFlowCard = this.homey.flow.getDeviceTriggerCard('a-device-went-offline-online');
+    this.deviceOfflineOnlineFlowCard.registerRunListener(async (args, state) => {
       //args.Network: what the user wrote on the flow card. state.Network: what actually happened
-      console.log("device offline handler");
-      return true;
+      console.log("device offline / online handler");
+      return (args.offline_online === state.offline_online);
     });
 
     this.networkChangedFlowCard = this.homey.flow.getDeviceTriggerCard('network-changed');
@@ -83,7 +83,7 @@ class Velop_WHW03 extends Driver {
 
     this.externalIpChangedFlowCard = this.homey.flow.getDeviceTriggerCard('external-ip-changed');
 
-    // Register Conditions Listeners
+    //Register Conditions Listeners
     this.wanConnectedConditionCard = this.homey.flow.getConditionCard('wan-connected-condition');
     this.wanConnectedConditionCard.registerRunListener(async (args, state) => {
       console.log("Condition (AND): wan-connected-condition handler");
@@ -93,9 +93,7 @@ class Velop_WHW03 extends Driver {
     this.deviceConnectedConditionCard = this.homey.flow.getConditionCard('device-is-connected-condition');
     this.deviceConnectedConditionCard.registerRunListener(async (args, state) => {
       console.log("Condition (AND): device-is-connected-condition handler");
-      console.log("By mac or name: " + args.by_mac_or_name);
       if (args.by_mac_or_name === "by_mac") {
-        console.log("Calling by-mac)");
         return(await args.device.getIsConnectedByMac(args.specific_device_cond.mac_address));
       } else {
         return(await args.device.getIsConnectedByName(args.specific_device_cond.device_name));
@@ -106,11 +104,9 @@ class Velop_WHW03 extends Driver {
     this.deviceConnectedToNodeConditionCard = this.homey.flow.getConditionCard('device-is-connected-to-node-condition');
     this.deviceConnectedToNodeConditionCard.registerRunListener(async (args, state) => {
       console.log("Condition (AND): device-is-connected-to-node handler");
-      console.log("By mac or name: " + args.by_mac_or_name);
       var isConnected = false;
       var node = null;
       if (args.by_mac_or_name === "by_mac") {
-        console.log("Calling by-mac)");
         isConnected = (await args.device.getIsConnectedByMac(args.specific_device_cond.mac_address));
         node = await args.device.getNodeByMac(args.specific_device_cond.mac_address);
       } else {
@@ -123,11 +119,9 @@ class Velop_WHW03 extends Driver {
     this.deviceConnectedToNetworkConditionCard = this.homey.flow.getConditionCard('device-is-connected-to-network-condition');
     this.deviceConnectedToNetworkConditionCard.registerRunListener(async (args, state) => {
       console.log("Condition (AND): device-is-connected-to-network-condition handler");
-      console.log("By mac or name: " + args.by_mac_or_name);
       var isConnected = false;
       var network = null;
       if (args.by_mac_or_name === "by_mac") {
-        console.log("Calling by-mac)");
         isConnected = await args.device.getIsConnectedByMac(args.specific_device_cond.mac_address);
         network = await args.device.getNetworkByMac(args.specific_device_cond.mac_address);
       } else {
@@ -137,30 +131,31 @@ class Velop_WHW03 extends Driver {
       return (isConnected && network === args.specific_network_cond)
     });
 
-    this.deviceOfflineConditionCard = this.homey.flow.getConditionCard('device-is-offline-condition');
-    this.deviceOfflineConditionCard.registerRunListener(async (args, state) => {
-      console.log("Condition (AND): device-is-offline-condition handler");
-      console.log("By mac or name: " + args.by_mac_or_name);
-      var isOffline = false;
+    this.deviceOfflineOnlineConditionCard = this.homey.flow.getConditionCard('device-is-offline-online-condition');
+    this.deviceOfflineOnlineConditionCard.registerRunListener(async (args, state) => {
+      console.log("Condition (AND): device-is-offline-online-condition handler");
       if (args.by_mac_or_name === "by_mac") {
-        console.log("Calling by-mac)");
-        return await args.device.getIsOfflineByMac(args.specific_device_cond.mac_address);
+        if (args.offline_online === "offline") {
+          return await args.device.getIsOfflineByMac(args.specific_device_cond.mac_address);
+        } else {
+          return await args.device.getIsOnlineByMac(args.specific_device_cond.mac_address);
+        }
       } else {
-        return await args.device.getIsOfflineByName(args.specific_device_cond.device_name);
+        if (args.offline_online === "offline") {
+          return await args.device.getIsOfflineByName(args.specific_device_cond.device_name);
+        } else {
+          return await args.device.getIsOnlineByName(args.specific_device_cond.device_name);
+        }
       }
     });
 
     this.deviceCoonectedToGuestConditionCard = this.homey.flow.getConditionCard('device-is-connected-to-guest-condition');
     this.deviceCoonectedToGuestConditionCard.registerRunListener(async (args, state) => {
       console.log("Condition (AND): device-is-connected-to-network-condition handler");
-      console.log("By mac or name: " + args.by_mac_or_name);
-      var isConnected = false;
-      var network = null;
       if (args.by_mac_or_name === "by_mac") {
-        console.log("Calling by-mac)");
         return await args.device.isConnectedToGuestByMac(args.specific_device_cond.mac_address);
       } else {
-        isConnected = await args.device.isConnectedToGuestByName(args.specific_device_cond.device_name);
+        return await args.device.isConnectedToGuestByName(args.specific_device_cond.device_name);
       }
     });
 
