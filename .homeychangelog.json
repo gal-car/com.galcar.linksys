@@ -1,5 +1,8 @@
 {
   "1.0.0": {
     "en": "Initial Version"
+  },
+  "1.0.1": {
+    "en": "Bugfix: a crash when a new device is added to the router"
   }
 }

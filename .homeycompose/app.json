@@ -1,6 +1,6 @@
 {
   "id": "com.galcar.linksys",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "platforms": [
@@ -16,7 +16,7 @@
   "category": [
     "appliances"
   ],
- "tags": {
+  "tags": {
     "en": [
       "Linksys",
       "Velop",
