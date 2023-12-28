@@ -291,6 +291,7 @@ class Velop_Device extends Device {
     if (this.#devices.length != 0) {
       for (let newDevice of Object.values(newDevices)) {
         var oldDevice = this.#devices.find(({ deviceId }) => deviceId === newDevice.deviceId);
+        if (!oldDevice) {continue;};
         newDevice.offlineAfter = oldDevice.offlineAfter;
         newDevice.onlineAfter = oldDevice.onlineAfter;
         if (newDevice.macAddress === "Unknown") { newDevice.macAddress = oldDevice.macAddress; };
