@@ -4,5 +4,8 @@
   },
   "1.0.1": {
     "en": "Bugfix: a crash when a new device is added to the router"
+  },
+  "1.0.2": {
+    "en": "Iniital support for MR7500 router"
   }
 }
