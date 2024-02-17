@@ -200,7 +200,10 @@ class Velop_WHW03 extends Driver {
       "model_number" : deviceInfo.output.modelNumber,
       "model_name" : deviceInfo.output.description      
     }
-    if ((deviceInfo.output.modelNumber.toLowerCase() != "whw03") || (deviceInfo.output.description.toLowerCase() != "velop")) {
+    if (
+      (deviceInfo.output.modelNumber.toLowerCase() != "whw03") &&
+      (deviceInfo.output.modelNumber.toLowerCase() != "mr7500")
+      ) {
       await this.#testAllAPIs();
       throw new Error("It looks like your device is not supported by this app. If you like, please send deiagnostic report through app-settings. Once I get the report I can check if its possible to add support to your device.");
     };
