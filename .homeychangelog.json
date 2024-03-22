@@ -10,5 +10,8 @@
   },
   "1.0.3": {
     "en": "Add Support to MR-7500 Router"
+  },
+  "1.0.4": {
+    "en": "Bugfix with missing node name"
   }
 }
