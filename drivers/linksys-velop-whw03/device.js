@@ -267,7 +267,11 @@ class Velop_Device extends Device {
       if (device.friendlyName) {newDevice.name = device.friendlyName};
       if (device.nodeType == "Master" || device.nodeType == "Slave") {
         newDevice.isNode = true;
-        this.#nodes[device.deviceID] = device.properties.find(function(element) {return element.name === "userDeviceName"}).value;
+        if (device.properties.find(function(element) {return element.name === "userDeviceName"})) {
+          this.#nodes[device.deviceID] = device.properties.find(function(element) {return element.name === "userDeviceName"}).value;
+        } else {
+          this.#nodes[device.deviceID] = device.friendlyName;
+        }
       } else {newDevice.isNode = false; };
       newDevices.push(newDevice);
     }
