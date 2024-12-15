@@ -13,5 +13,8 @@
   },
   "1.0.4": {
     "en": "Bugfix with missing node name"
+  },
+  "1.0.5": {
+    "en": "Added MX42 Device"
   }
 }
