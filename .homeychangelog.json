@@ -16,5 +16,8 @@
   },
   "1.0.5": {
     "en": "Added MX42 Device"
+  },
+  "1.0.6": {
+    "en": "Fixed a typo on MX42 omdel"
   }
 }
