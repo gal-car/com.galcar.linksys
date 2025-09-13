@@ -203,7 +203,8 @@ class Velop_WHW03 extends Driver {
     if (
       (deviceInfo.output.modelNumber.toLowerCase() != "whw03") &&
       (deviceInfo.output.modelNumber.toLowerCase() != "mr7500") &&
-      (deviceInfo.output.modelNumber.toLowerCase() != "mx42")
+      (deviceInfo.output.modelNumber.toLowerCase() != "mx42") &&
+      (deviceInfo.output.modelNumber.toLowerCase() != "wrt1900acs")
       ) {
       await this.#testAllAPIs();
       throw new Error("It looks like your device is not supported by this app. If you like, please send deiagnostic report through app-settings. Once I get the report I can check if its possible to add support to your device.");
